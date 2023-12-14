@@ -45,11 +45,8 @@ const usuarioQueries = {
     descUsuario: async(root,args)=>{
      
         try {
-            
             const decoded = jwt.verify(args.token, 'SUPER_HYPER_MEGA_PALABRA_SECRETA'); 
             const usuario = await Usuario.findById(decoded.id);
-            
-              // Devolver los datos del usuario extraídos del token
             return usuario;
           } catch (error) {
             throw new Error('Token inválido o expirado');
