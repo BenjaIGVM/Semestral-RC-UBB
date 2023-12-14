@@ -45,8 +45,8 @@ const usuarioQueries = {
     descUsuario: async(root,args)=>{
      
         try {
-            // Verificar la validez del token y decodificarlo
-            const decoded = jwt.verify(args.token, 'SUPER_HYPER_MEGA_PALABRA_SECRETA'); // Reemplaza 'clave-secreta' con tu clave secreta real
+            
+            const decoded = jwt.verify(args.token, 'SUPER_HYPER_MEGA_PALABRA_SECRETA'); 
             const usuario = await Usuario.findById(decoded.id);
             
               // Devolver los datos del usuario extraídos del token
