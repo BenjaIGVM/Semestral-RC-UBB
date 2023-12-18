@@ -47,17 +47,28 @@ query {
   const [crearUsuario, { error, reset }] = useMutation(CREATE_USER);
   const { data: carrerasData, loading: carrerasLoading } = useQuery(GET_CARRERAS);
   const validateForm = () => {
-    const nameRegex = /\d/;
-    if (nameRegex.test(nombre)) {
-      setNombreError("El nombre no debe contener números");
+    const nameRegex = /^[a-zA-Z\s]*$/;
+    if (!nameRegex.test(nombre)) {
+      setNombreError("El nombre no debe contener números ni caracteres especiales ");
       return false;
     }
-    if (nameRegex.test(apellido)) {
-      setApellidoError("El apellido no debe contener números");
+    if (!nameRegex.test(apellido)) {
+      setApellidoError("El apellido no debe contener números ni caracteres especiales ");
       return false;
     }
-
-
+    if (!nombre.trim()  ) {
+      setNombreError("El campo de nombre es obligatorio");
+      return false;
+    }
+    if (!apellido.trim())   {
+      setApellidoError("El campo de apellido es obligatorio");
+      return false;
+    }
+    if (!username.trim())   {
+      setUsernameError("El campo de nombre de usuario es obligatorio");
+      return false;
+    }
+    
     const emailRegex = /^[a-zA-Z0-9._%+-]+@alumnos\.ubiobio\.cl$/i;
     if (!emailRegex.test(correo)) {
       setCorreoError("El correo ingresado no es válido");
@@ -109,7 +120,7 @@ query {
           fecha_nacimiento,
         },
       });
-
+     
       if (data.crearUsuario) {
         router.push("/login");
       }
@@ -124,7 +135,18 @@ query {
       }
     }
   };
+  useEffect(() => {
+    if (errorMessage) {
+      const timeoutId = setTimeout(() => {
+        setErrorMessage(false);
+      }, 3000);
 
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+
+  }, [errorMessage]);
   useEffect(() => {
     if (nombreError) {
       const timeoutId = setTimeout(() => {
@@ -351,6 +373,7 @@ query {
                     Crear usuario
                   </button>
                 </div>
+                
               </form>
               <p className="text-center self-center">
                 ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
