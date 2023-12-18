@@ -113,13 +113,13 @@ const EditarUsuarioPage = ({ screenWidth }) => {
         return false;
       }
     }
-    const nameRegex = /\d/;
+    const nameRegex = /^[a-zA-Z\s]*$/;
     if (nameRegex.test(nuevoNombre)) {
-      setNombreError("El nombre no debe contener números");
+      setNombreError("El nombre no debe contener números ni caracteres especiales ");
       return false;
     }
     if (nameRegex.test(nuevoApellido)) {
-      setApellidoError("El apellido no debe contener números");
+      setApellidoError("El apellido no debe contener números ni caracteres especiales ");
       return false;
     }
 
@@ -184,7 +184,6 @@ const EditarUsuarioPage = ({ screenWidth }) => {
 
       setEdicionExitosa(true);
       setMostrarMensajeExito(true);
-      //console.log("Usuario editado:", data.editarUsuario);
     } catch (error) {
       if (error.message.includes("Ya existe un usuario con este correo")) {
         setEdicionFallida(true);
