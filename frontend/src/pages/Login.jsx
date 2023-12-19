@@ -12,6 +12,8 @@ export default function Login({ screenWidth }) {
   const { userInfo } = useContext(UserContext);
   const [loginFallido, setLoginFallido] = useState(false);
   const [email, setEmail] = useState("");
+  const [correoError, setCorreoError] = useState("");
+  const [contrasenaError, setContrasenaError] = useState("");
   const [password, setPassword] = useState("");
   const GET_TOKEN = gql`
     mutation Login($correo: String!, $contrasena: String!) {
@@ -21,10 +23,28 @@ export default function Login({ screenWidth }) {
     }
   `;
   const [loginMutation, { error }] = useMutation(GET_TOKEN);
-
+  const validateForm = () => {
+    if (!email.trim()) {
+      setCorreoError("Ingrese correo");
+      setTimeout(() => setCorreoError(""), 3000); 
+      return false;
+    }
+  
+    if (!password.trim()) {
+      setContrasenaError("Ingrese contraseña");
+      setTimeout(() => setContrasenaError(""), 3000);
+      return false;
+    }
+  
+    return true;
+  };
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setCorreoError("");
+    setContrasenaError("");
+    if (!validateForm()) {
+      return;
+    }  
     try {
       const { data } = await loginMutation({
         variables: {
@@ -46,7 +66,7 @@ export default function Login({ screenWidth }) {
       window.location.reload();
     } catch (error) {
       setLoginFallido(true);
-
+      setTimeout(() => setLoginFallido(""), 3000);
       console.log(error);
     }
   };
@@ -114,14 +134,19 @@ export default function Login({ screenWidth }) {
                   placeholder="correo"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                />
+                />{correoError && (
+                  <div className="text-red-500">{correoError}</div>
+                )}
                 <input
+                
                   type="password"
                   className="my-2 mt-[5vh] w-5/6 max-w-[400px] rounded-[10px] bg-background  p-2 placeholder-secondary outline-none focus:outline-secondary"
                   placeholder="Contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                />
+                /> {contrasenaError && (
+                  <div className="text-red-500" style={{ maxWidth: '400px', wordWrap: 'break-word' }}>{contrasenaError}</div>
+                )}
                 {loginFallido && (
                   <div className="mt-4 font-semibold text-red-500">
                     ¡Correo o contraseña incorrecta!
