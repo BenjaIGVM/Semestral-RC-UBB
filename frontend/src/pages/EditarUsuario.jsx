@@ -114,11 +114,11 @@ const EditarUsuarioPage = ({ screenWidth }) => {
       }
     }
     const nameRegex = /^[a-zA-Z\s]*$/;
-    if (nameRegex.test(nuevoNombre)) {
+    if (!nameRegex.test(nuevoNombre)) {
       setNombreError("El nombre no debe contener números ni caracteres especiales ");
       return false;
     }
-    if (nameRegex.test(nuevoApellido)) {
+    if (!nameRegex.test(nuevoApellido)) {
       setApellidoError("El apellido no debe contener números ni caracteres especiales ");
       return false;
     }
