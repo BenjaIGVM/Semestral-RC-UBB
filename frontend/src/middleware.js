@@ -50,9 +50,8 @@ export const config = {
         '/home/:path*',
         '/Login/:path*',
         '/login/:path*',
-        '/Editarusuario/:path*',
-        
-        
+        '/EditarUsuario/:path*',
+        '/editarUsuario/:path*',
         '/profile/:path*',
         '/Profile/:path*',
         '/feed/:path*',
