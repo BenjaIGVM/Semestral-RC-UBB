@@ -101,7 +101,7 @@ export default function Home({ screenWidth, children }) {
             href = "/Notas";
             break;
           case 5:
-            href = "/EditarUsuario";
+            href = "/Editarusuario";
             break;
           case 6:
             href = "/Calendar";
