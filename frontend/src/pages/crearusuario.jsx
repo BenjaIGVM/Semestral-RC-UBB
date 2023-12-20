@@ -79,7 +79,7 @@ query {
       setContrasenaError("La contraseña debe tener al menos 8 caracteres y una letra mayúscula");
       return false;
     }
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[.@$!%*?&])[A-Za-z\d@$!%*?&.]{8,}$/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
     if (!passwordRegex.test(contrasena)) {
       setContrasenaError("La contraseña debe tener al menos 8 caracteres, una mayuscula y un caracter especial");
 
