@@ -45,16 +45,13 @@ const CambioContrasena = ({ screenWidth }) => {
       setCorreoError("El correo no está registrado.");
       return false;
     }
-    if (nuevaClave.length < 8) {
-      setErrorMessage("La nueva contraseña debe tener al menos 8 caracteres");
-      console.error("La nueva contraseña debe tener al menos 8 caracteres");
-      return;
-    }
-    if (!/[A-Z]/.test(nuevaClave)) {
-      setErrorMessage("La nueva contraseña debe contener al menos una letra mayúscula");
-      console.error("La nueva contraseña debe contener al menos una letra mayúscula");
-      return;
-    }
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/;
+      if (!passwordRegex.test(nuevaClave)) {
+        setErrorMessage("La contraseña debe tener al menos 8 caracteres, una mayuscula y un caracter especial");
+
+        return false;
+      }
+    
 
     try {
       const { data } = await actualizarContrasena({
@@ -77,16 +74,25 @@ const CambioContrasena = ({ screenWidth }) => {
     if (updateFailedMessage) {
       const timer = setTimeout(() => {
         setUpdateFailedMessage(false);
-      }, 5000); 
+      }, 3000); 
 
       return () => clearTimeout(timer);
     }
   }, [updateFailedMessage]);
   useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000); 
+  
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
+  useEffect(() => {
     if (updateFailedMessage) {
       const timer = setTimeout(() => {
         setUpdateFailedMessage(false);
-      }, 5000); 
+      }, 3000); 
 
       return () => clearTimeout(timer);
     }
@@ -95,7 +101,7 @@ const CambioContrasena = ({ screenWidth }) => {
     if (errorMessage) {
       const timer = setTimeout(() => {
         setErrorMessage(false);
-      }, 5000); 
+      }, 3000); 
 
       return () => clearTimeout(timer);
     }
@@ -104,7 +110,7 @@ const CambioContrasena = ({ screenWidth }) => {
     if (correoError) {
       const timer = setTimeout(() => {
         setCorreoError(false);
-      }, 5000); 
+      }, 3000); 
 
       return () => clearTimeout(timer);
     }
